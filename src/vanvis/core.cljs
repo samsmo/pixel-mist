@@ -35,9 +35,7 @@
         nextY (if (not= decY 0) (inc-pos-neg decY sY scale) y)
         absX (. js/Math (abs (/ decX scale)))
         absY (. js/Math (abs (/ decY scale)))]
-    (swap! app-state assoc :color "#0033CC")
     (draw-pixel nextX nextY context)
-    (swap! app-state assoc :color "#FF33CC")
     (when (or (> absX 1) (> absY 1))
       (fill-in-blanks nextX nextY (if (not= nextX x) (- x nextX) 0) (if (not= nextY y) (- y nextY) 0) x y context)
       )))
