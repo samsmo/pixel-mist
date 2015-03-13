@@ -29,6 +29,11 @@
     (+ val incr)
     (- val incr)))
 
+(defn decrement [a b]
+  (if (not= a b)
+    (- b a)
+    0))
+
 (defn fill-in-blanks [sX sY decX decY x y context]
   (let [scale (:scale @app-state)
         nextX (if (not= decX 0) (inc-pos-neg decX sX scale) x)
@@ -37,7 +42,7 @@
         absY (. js/Math (abs (/ decY scale)))]
     (draw-pixel nextX nextY context)
     (when (or (> absX 1) (> absY 1))
-      (fill-in-blanks nextX nextY (if (not= nextX x) (- x nextX) 0) (if (not= nextY y) (- y nextY) 0) x y context)
+      (fill-in-blanks nextX nextY (decrement nextX x) (decrement nextY y) x y context)
       )))
 
 (defn draw [x y context {:keys [prevX prevY]}]
@@ -60,10 +65,7 @@
   (let [c (chan)]
     (events/listen el type #(put! c %))
     c))
-;ideas!
-;1) calculate the distance between this pixel and previous using this formula:
-; dist = sqrt((y2-y1)^2 + (x2-x1)^2);
-; then fill in the pixels if the distance is greater than 1px size (5x5)
+
 (defn bind-drawing-events [el out]
   (let [mv (listen el "mousemove")
         md (listen el "mousedown")
