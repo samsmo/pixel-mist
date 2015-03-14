@@ -1,9 +1,9 @@
 (ns ^:figwheel-always vanvis.core
-    (:require [cljs.core.async :as async
-               :refer [<! >! chan put! timeout]]
-              [goog.events :as events]
-              [goog.dom :as dom])
-    (:require-macros [cljs.core.async.macros :refer [go]]))
+  (:require [cljs.core.async :as async
+             :refer [<! >! chan put! timeout]]
+            [goog.events :as events]
+            [goog.dom :as dom])
+  (:require-macros [cljs.core.async.macros :refer [go]]))
 
 (enable-console-print!)
 
@@ -14,6 +14,8 @@
                           :color "#FF33CC"
                           :scale 5
                           :history {:prevX nil :prevY nil}
+                          :canvas (dom/createDom "canvas")
+                          :context nil
                           }))
 
 (defn draw-pixel [x y context]
@@ -53,9 +55,9 @@
         yDist (- y prevY)]
     (when (and (not (nil? prevX))
                (or (> (. js/Math (abs xDist)) scale)
-              (> (. js/Math (abs yDist)) scale))
-      (fill-in-blanks prevX prevY xDist yDist x y context)))
-  (draw-pixel x y context)))
+                   (> (. js/Math (abs yDist)) scale))
+               (fill-in-blanks prevX prevY xDist yDist x y context)))
+    (draw-pixel x y context)))
 
 (defn canvas-adjust [context]
   (set! (.. context -canvas -width) (.-innerWidth js/window))
@@ -78,12 +80,13 @@
               mv (when (:dragging @app-state)
                    (draw (.-offsetX v) (.-offsetY v) out (:history @app-state)))
               mu (swap! app-state assoc :dragging false :history {:x nil :y nil})
-            ))))))
+              ))))))
 
 (defn setup []
-  (let [canvas (dom/getElement "canvas")
-        context (. canvas (getContext "2d"))
-        scale 5]
+  (swap! app-state assoc :context (. (:canvas @app-state) (getContext "2d")))
+  (dom/appendChild (. js/document -body) (:canvas @app-state))
+  (let [context (:context @app-state)
+        canvas (:canvas @app-state)]
     (canvas-adjust context)
     (bind-drawing-events canvas context)))
 
