@@ -23,4 +23,4 @@ lein figwheel
 | randomizr | a feature that will randomly add different colors to your pencil tool so that you can get neat effects~ | nil |
 | eraser | so you can delete shit | nil |
 | saver | so you can save shit | nil |
-| giffer | so oyu can gif shit? | nil |
+| giffer | so you can gif shit? | nil |
