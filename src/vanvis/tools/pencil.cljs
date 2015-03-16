@@ -2,9 +2,7 @@
   (:require [vanvis.helpers :as helpers]))
 
 (defn draw-pixel [x y app]
-  (let [scale (:scale @app)
-        color (:color @app)
-        context (:context @app)
+  (let [{:keys [color scale context]} @app
         hist (conj (:history @app) {:prevX x :prevY y})]
     (set! (.-fillStyle context) color)
     (. context (fillRect x y scale scale))
