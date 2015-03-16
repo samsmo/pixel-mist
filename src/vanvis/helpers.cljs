@@ -1,6 +1,5 @@
 (ns ^:figwheel-always vanvis.helpers)
 
-
 (defn inc-pos-neg [check val incr]
   (if (> check 0)
     (+ val incr)
