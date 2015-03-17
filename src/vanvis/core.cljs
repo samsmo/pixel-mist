@@ -4,7 +4,7 @@
             [goog.events :as events]
             [goog.dom :as dom]
             [vanvis.state :as app]
-            [vanvis.helpers :as helpers])
+            [vanvis.helpers.history :as hist])
   (:require-macros [cljs.core.async.macros :refer [go]]))
 
 (enable-console-print!)
@@ -29,10 +29,10 @@
             (condp = d
               md (swap! app/app-state assoc :dragging true)
               mv (when (:dragging @app/app-state)
-                   (helpers/push-stroke v app/app-state))
-              mu (helpers/burn-books app/app-state)
-              mc ((helpers/push-stroke v app/app-state)
-                  (helpers/burn-books app/app-state))
+                   (hist/push-stroke v app/app-state))
+              mu (hist/burn-books app/app-state)
+              mc ((hist/push-stroke v app/app-state)
+                  (hist/burn-books app/app-state))
               ))))))
 
 (defn setup []
