@@ -4,8 +4,7 @@
             [goog.events :as events]
             [goog.dom :as dom]
             [vanvis.state :as app]
-            [vanvis.helpers :as helpers]
-            [vanvis.tools.pencil :as pencil])
+            [vanvis.helpers :as helpers])
   (:require-macros [cljs.core.async.macros :refer [go]]))
 
 (enable-console-print!)
@@ -23,18 +22,17 @@
   (let [mv (listen el "mousemove")
         md (listen el "mousedown")
         mu (listen el "mouseup")
+        mc (listen el "click")
         msg :draw-end]
     (go (while true
-          (let [[v d] (alts! [mv md mu])]
+          (let [[v d] (alts! [mv md mu mc])]
             (condp = d
               md (swap! app/app-state assoc :dragging true)
               mv (when (:dragging @app/app-state)
-                   (let [x (.-offsetX v)
-                         y (.-offsetY v)
-                         nuHistory (conj (:history @app/app-state) {:x x :y y})]
-                     (swap! app/app-state assoc :history nuHistory)
-                     (pencil/draw app/app-state)))
-              mu (swap! app/app-state assoc :dragging false :history {:x nil :y nil})
+                   (helpers/push-stroke v app/app-state))
+              mu (helpers/burn-books app/app-state)
+              mc ((helpers/push-stroke v app/app-state)
+                  (helpers/burn-books app/app-state))
               ))))))
 
 (defn setup []

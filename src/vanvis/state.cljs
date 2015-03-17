@@ -1,9 +1,10 @@
 (ns vanvis.state
-  (:require [goog.dom :as dom]))
+  (:require [goog.dom :as dom]
+            [vanvis.tools.pencil :as pencil]))
 
 ;let's set up some defaults yao!
 (defonce app-state (atom {
-                          :tool :pencil
+                          :tool pencil/handle-event
                           :dragging false
                           :color "#FF33CC"
                           :scale 5

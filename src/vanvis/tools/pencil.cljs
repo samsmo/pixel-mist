@@ -32,3 +32,5 @@
                (fill-in-blanks prevX prevY xDist yDist x y app)))
     (draw-pixel x y app)))
 
+(defn handle-event[app]
+  (draw app))
