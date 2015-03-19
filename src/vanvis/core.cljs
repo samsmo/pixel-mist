@@ -29,11 +29,21 @@
             (condp = d
               md (swap! app/app-state assoc :dragging true)
               mv (when (:dragging @app/app-state)
-                   (hist/push-stroke v app/app-state))
-              mu (hist/burn-books app/app-state)
+                   (let [pixel-strokes (math/calc-path v)]
+                     (hist/push-stroke pixel-stokes app/app-state)))
+              mu (hist/stop-drag app/app-state)
               mc ((hist/push-stroke v app/app-state)
-                  (hist/burn-books app/app-state))
+                  (hist/stop-drag app/app-state))
               ))))))
+
+(add-watch app/app-state :render
+           (fn [_ _ old new]
+             (when (not= (get-in old [:history])
+                         (get-in new [:history]))
+               (let [tool (:tool @app/app-state)
+                     oldHist (get-in old [:history])
+                     newHist (get-in new [:history])]
+                 (tool {:coords [oldHist newHist]} app/app-state)))))
 
 (defn setup []
   (swap! app/app-state assoc :context (. (:canvas @app/app-state) (getContext "2d")))

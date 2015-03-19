@@ -8,7 +8,7 @@
                           :dragging false
                           :color "#FF33CC"
                           :scale 5
-                          :history {:prevX nil :prevY nil}
+                          :history []
                           :canvas (dom/createDom "canvas")
                           :context nil
                           }))

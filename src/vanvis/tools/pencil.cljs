@@ -8,5 +8,11 @@
     (. context (fillRect x y scale scale))
     (swap! app assoc :history hist)))
 
-(defn handle-event[app]
-  (brush/draw app draw-pixel))
+(defn draw [opts app]
+  ;; loop through items
+  ;; -> call draw pixel
+  (println opts))
+
+
+(defn handle-event[opts app]
+  (draw opts app))
