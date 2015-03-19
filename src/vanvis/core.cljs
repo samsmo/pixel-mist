@@ -43,4 +43,3 @@
     (canvas-adjust context)
     (bind-drawing-events canvas context)))
 
-(setup)
