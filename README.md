@@ -18,10 +18,11 @@ lein figwheel
 
 
 ## TODO:
-| Name | desc | status |
-| ---- | ---- | ------ |
-| randomizr | a feature that will randomly add different colors to your pencil tool so that you can get neat effects~ | nil |
-| eraser | so you can delete shit | nil |
-| fill tool | OBVIOUSLY | nil |
-| saver | so you can save shit | nil |
-| giffer | so you can gif shit? | nil |
+| Name      | desc                        | status |
+| --------- | --------------------------- | ------ |
+| randomizr | Color randomizer            | nil    |
+| eraser    | so you can delete shit      | nil    |
+| fill tool | OBVIOUSLY                   | nil    |
+| saver     | so you can save shit        | nil    |
+| giffer    | so you can gif shit?        | nil    |
+| BUGS      | fix Mu pixel in left corner | nil    |
