@@ -1,26 +1,46 @@
 (ns vanvis.helpers.brush
-  (:require [vanvis.helpers.math :as math]))
+  (:require [vanvis.helpers.math :as math]
+            [vanvis.state :as app]))
 
-(defn predict-path [sX sY decX decY x y app fnc]
-  (let [{:keys [scale context]} @app
-        nextX (if (not= decX 0) (math/inc-pos-neg decX sX scale) x)
-        nextY (if (not= decY 0) (math/inc-pos-neg decY sY scale) y)
-        absX (. js/Math (abs (/ decX scale)))
-        absY (. js/Math (abs (/ decY scale)))]
-    (when (or (> absX 1) (> absY 1))
-      (predict-path nextX nextY (math/decrement nextX x) (math/decrement nextY y) x y app fnc)
-      )))
+(defn predict-path [opts path]
+  (let [{:keys [scale]} @app/app-state
+        {:keys [prev-x prev-y x-dist y-dist x y]} opts
+        next-x (if (not= x-dist 0) (math/inc-pos-neg x-dist prev-x scale) x)
+        next-y (if (not= y-dist 0) (math/inc-pos-neg y-dist prev-y scale) y)
+        abs-x (. js/Math (abs (/ x-dist scale)))
+        abs-y (. js/Math (abs (/ y-dist scale)))
+        opts {:prev-x next-x
+               :prev-y next-y
+               :x-dist (math/decrement next-x x)
+               :y-dist (math/decrement next-y y)
+               :x x
+               :y y}
+        mush (conj path {:x next-x :y next-y})]
+    (if (or (> abs-x 1) (> abs-y 1))
+      (predict-path opts mush)
+      mush)))
 
-(defn draw [app fnc]
-  (let [{:keys [scale context history]} @app
-        {:keys [x y prevX prevY]} history
+(defn missing-pieces? [prev x y path]
+  (let [{prev-x :x, prev-y :y} prev
+        {:keys [scale]} @app/app-state
+        x-dist (- x prev-x)
+        y-dist (- y prev-y)
+        opts {:prev-x prev-x
+               :prev-y prev-y
+               :x-dist x-dist
+               :y-dist y-dist
+               :x x
+               :y y}]
+    (if (and (not (nil? prev-x))
+                 (or (> (. js/Math (abs x-dist)) scale)
+                     (> (. js/Math (abs y-dist)) scale)))
+      (predict-path opts path)
+      path)))
+
+(defn calc-path [x y]
+  (let [{:keys [scale context history]} @app/app-state
+        prev (last history)
         x (* (. js/Math (ceil (/ x scale))) scale)
         y (* (. js/Math (ceil (/ y scale))) scale)
-        xDist (- x prevX)
-        yDist (- y prevY)
-        futurePath []]
-    (when (and (not (nil? prevX))
-               (or (> (. js/Math (abs xDist)) scale)
-                   (> (. js/Math (abs yDist)) scale))
-               (predict-path prevX prevY xDist yDist x y app fnc)))
-    futurePath))
+        path (missing-pieces? (last prev) x y [{:x x :y y}])]
+        path))

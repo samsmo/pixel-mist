@@ -4,7 +4,7 @@
 
 ;let's set up some defaults yao!
 (defonce app-state (atom {
-                          :tool pencil/handle-event
+                          :tool pencil/render
                           :dragging false
                           :color "#FF33CC"
                           :scale 5
