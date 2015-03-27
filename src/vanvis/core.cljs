@@ -33,8 +33,9 @@
                    (let [pixel-strokes (brush/calc-path (. v -offsetX) (. v -offsetY))]
                      (hist/push-stroke pixel-strokes app/app-state)))
               mu (hist/stop-drag app/app-state)
-              mc (println "lik")
-              ;mc ((hist/stop-drag app/app-state))
+              mc ((let [pixel-strokes (brush/calc-path (. v -offsetX) (. v -offsetY))]
+                   (hist/push-stroke pixel-strokes app/app-state))
+                  (hist/stop-drag app/app-state))
               ))))))
 
 ;; Faux render 'loop'

@@ -12,4 +12,5 @@
   (swap! app assoc :history [{:x nil :y nil}]))
 
 (defn stop-drag [app]
-  (swap! app assoc :dragging false))
+  (swap! app assoc :dragging false)
+  (burn-books app))
