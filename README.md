@@ -19,7 +19,7 @@ lein figwheel
 | Name | desc | status |
 | ---- | ---- | ------ |
 | randomizr | a feature that will randomly add different colors to your pencil tool so that you can get neat effects~ | nil |
-| eraser | so you can delete shit | nil |
-| fill tool | OBVIOUSLY | nil |
-| saver | so you can save shit | nil |
-| giffer | so you can gif shit? | nil |
+| eraser | Removal Tool | nil |
+| fill tool | Fill in tha spaces | nil |
+| saver | Save progress | nil |
+| giffer | ?? | nil |
