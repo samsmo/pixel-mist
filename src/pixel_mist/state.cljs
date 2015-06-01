@@ -1,6 +1,6 @@
-(ns vanvis.state
+(ns pixel-mist.state
   (:require [goog.dom :as dom]
-            [vanvis.tools.pencil :as pencil]))
+            [pixel-mist.tools.pencil :as pencil]))
 
 ;let's set up some defaults yao!
 (defonce app-state (atom {
@@ -11,4 +11,5 @@
                           :history []
                           :canvas (dom/createDom "canvas")
                           :context nil
+                          :grid nil
                           }))

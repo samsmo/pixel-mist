@@ -1,7 +1,10 @@
 /* some style */
-html, body {
-    width: 100%;
+
+html,
+body {
+    cursor: url(../img/cursor.png), auto;
     height: 100%;
     margin: 0;
+    overflow: hidden;
+    width: 100%;
 }
-

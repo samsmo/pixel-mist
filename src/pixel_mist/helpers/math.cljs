@@ -1,4 +1,4 @@
-(ns vanvis.helpers.math)
+(ns pixel-mist.helpers.math)
 
 (defn inc-pos-neg [check val incr]
   (if (> check 0)

@@ -1,4 +1,4 @@
-(ns vanvis.tools.pencil)
+(ns pixel-mist.tools.pencil)
 
 (defn draw-pixel [coords app]
   (let [{:keys [color scale context]} @app

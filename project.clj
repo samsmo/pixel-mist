@@ -1,42 +1,41 @@
-(defproject vanvis "0.1.0-SNAPSHOT"
+(defproject pixel-mist "0.1.0-SNAPSHOT"
   :description "FIXME: write this!"
   :url "http://example.com/FIXME"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
 
   :dependencies [[org.clojure/clojure "1.6.0"]
-                 [org.clojure/clojurescript "0.0-2850"]
-                 [figwheel "0.2.5"]
+                 [org.clojure/clojurescript "0.0-3211"]
                  [org.clojure/core.async "0.1.346.0-17112a-alpha"]]
 
-  :plugins [[lein-cljsbuild "1.0.4"]
-            [lein-figwheel "0.2.5-SNAPSHOT"]]
+  :plugins [[lein-cljsbuild "1.0.5"]
+            [lein-figwheel "0.3.1"]]
 
   :source-paths ["src"]
 
-  :clean-targets ^{:protect false} ["resources/public/js/compiled"]
-
+  :clean-targets ^{:protect false} ["resources/public/js/compiled" "target"]
+  
   :cljsbuild {
     :builds [{:id "dev"
-              :source-paths ["src" "dev_src"]
-              :compiler {:output-to "resources/public/js/compiled/vanvis.js"
-                         :output-dir "resources/public/js/compiled/out"
-                         :optimizations :none
-                         :main vanvis.dev
+              :source-paths ["src"]
+
+              :figwheel { :on-jsload "pixel-mist.core/on-js-reload" }
+
+              :compiler {:main pixel-mist.core
                          :asset-path "js/compiled/out"
-                         :source-map true
-                         :source-map-timestamp true
-                         :cache-analysis true }}
+                         :output-to "resources/public/js/compiled/pixel_mist.js"
+                         :output-dir "resources/public/js/compiled/out"
+                         :source-map-timestamp true }}
              {:id "min"
               :source-paths ["src"]
-              :compiler {:output-to "resources/public/js/compiled/vanvis.js"
-                         :main vanvis.core
+              :compiler {:output-to "resources/public/js/compiled/pixel_mist.js"
+                         :main pixel-mist.core                         
                          :optimizations :advanced
                          :pretty-print false}}]}
 
   :figwheel {
-             :http-server-root "public" ;; default and assumes "resources"
-             :server-port 3449 ;; default
+             ;; :http-server-root "public" ;; default and assumes "resources" 
+             ;; :server-port 3449 ;; default
              :css-dirs ["resources/public/css"] ;; watch and update CSS
 
              ;; Start an nREPL server into the running figwheel process
@@ -44,7 +43,7 @@
 
              ;; Server Ring Handler (optional)
              ;; if you want to embed a ring handler into the figwheel http-kit
-             ;; server, this is simple ring servers, if this
+             ;; server, this is for simple ring servers, if this
              ;; doesn't work for you just run your own server :)
              ;; :ring-handler hello_world.server/handler
 
@@ -61,5 +60,5 @@
              ;; :repl false
 
              ;; to configure a different figwheel logfile path
-             ;; :server-logfile "tmp/logs/figwheel-logfile.log"
+             ;; :server-logfile "tmp/logs/figwheel-logfile.log" 
              })

@@ -1,6 +1,6 @@
-(ns vanvis.helpers.brush
-  (:require [vanvis.helpers.math :as math]
-            [vanvis.state :as app]))
+(ns pixel-mist.helpers.brush
+  (:require [pixel-mist.helpers.math :as math]
+            [pixel-mist.state :as app]))
 
 (defn predict-path [opts path]
   (let [{:keys [scale]} @app/app-state
@@ -10,11 +10,11 @@
         abs-x (. js/Math (abs (/ x-dist scale)))
         abs-y (. js/Math (abs (/ y-dist scale)))
         opts {:prev-x next-x
-               :prev-y next-y
-               :x-dist (math/decrement next-x x)
-               :y-dist (math/decrement next-y y)
-               :x x
-               :y y}
+              :prev-y next-y
+              :x-dist (math/decrement next-x x)
+              :y-dist (math/decrement next-y y)
+              :x x
+              :y y}
         mush (conj path {:x next-x :y next-y})]
     (if (or (> abs-x 1) (> abs-y 1))
       (predict-path opts mush)
@@ -26,14 +26,14 @@
         x-dist (- x prev-x)
         y-dist (- y prev-y)
         opts {:prev-x prev-x
-               :prev-y prev-y
-               :x-dist x-dist
-               :y-dist y-dist
-               :x x
-               :y y}]
+              :prev-y prev-y
+              :x-dist x-dist
+              :y-dist y-dist
+              :x x
+              :y y}]
     (if (and (not (nil? prev-x))
-                 (or (> (. js/Math (abs x-dist)) scale)
-                     (> (. js/Math (abs y-dist)) scale)))
+             (or (> (. js/Math (abs x-dist)) scale)
+                 (> (. js/Math (abs y-dist)) scale)))
       (predict-path opts path)
       path)))
 
@@ -43,4 +43,4 @@
         x (* (. js/Math (ceil (/ x scale))) scale)
         y (* (. js/Math (ceil (/ y scale))) scale)
         path (missing-pieces? (last prev) x y [{:x x :y y}])]
-        path))
+    path))
