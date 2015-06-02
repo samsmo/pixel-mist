@@ -8,3 +8,10 @@ body {
     overflow: hidden;
     width: 100%;
 }
+
+#grid {
+    top: 0;
+    left: 0;
+    position: fixed;
+    pointer-events: none;
+}

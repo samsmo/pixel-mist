@@ -7,12 +7,13 @@
                           :tool pencil/render
                           :dragging false
                           :color "#FF33CC"
-                          :scale 5
+                          :scale 10
                           :history []
                           :canvas (dom/createDom "canvas")
                           :context nil
                           :grid {
-                                 :canvas (dom/createDom "canvas")
+                                 :canvas (dom/createDom "canvas" (clj->js {:id "grid"}))
+                                 :ctx nil
                                  :coords {:x 0 :y 0}
                                  }
                           }))

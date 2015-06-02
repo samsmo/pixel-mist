@@ -6,7 +6,8 @@
             [pixel-mist.state :as app]
             [pixel-mist.helpers.history :as hist]
             [pixel-mist.helpers.brush :as brush]
-            [pixel-mist.helpers.kboard :as kboard])
+            [pixel-mist.helpers.kboard :as kboard]
+            [pixel-mist.tools.grid :as grid])
   (:require-macros [cljs.core.async.macros :refer [go]]))
 
 (enable-console-print!)
@@ -25,8 +26,7 @@
     (go (while true
           (let [key-event (<! kp)
                 char-code (.-charCode key-event)]
-            (kboard/press char-code app/app-state)
-            )))))
+            (kboard/press char-code app/app-state))))))
 
 (defn bind-drawing-events [el out]
   (let [mv (listen el "mousemove")
@@ -44,8 +44,7 @@
               mu (hist/stop-drag app/app-state)
               mc ((let [pixel-strokes (brush/calc-path (. v -offsetX) (. v -offsetY))]
                     (hist/push-stroke pixel-strokes app/app-state))
-                  (hist/stop-drag app/app-state))
-              ))))))
+                  (hist/stop-drag app/app-state))))))))
 
 ;; Faux render 'loop'
 (add-watch app/app-state :render
@@ -54,21 +53,26 @@
                          (get-in new [:history]))
                (let [tool (:tool @app/app-state)
                      newHist (get-in new [:history])]
-                 (tool (last newHist) app/app-state)
-                 ))
+                 (tool (last newHist) app/app-state)))
              (when (not= (get-in old [:grid])
                          (get-in new [:grid]))
-               (let [coords (get-in new [:grid :coords])]
-                 (println coords)))))
+               (let [coords (get-in new [:grid :coords])
+                     grid-ctx (get-in new [:grid :ctx])]
+                 (grid/render coords grid-ctx)))))
 
 (defn setup []
-  (swap! app/app-state assoc :context (. (:canvas @app/app-state) (getContext "2d")))
-  (dom/appendChild (. js/document -body) (:canvas @app/app-state))
-  (let [context (:context @app/app-state)
-        canvas (:canvas @app/app-state)]
-    (canvas-adjust context)
-    (bind-drawing-events canvas context)
-    (bind-tooling-events canvas context)))
+  (let [draw-canvas (:canvas @app/app-state)
+        draw-ctx (. draw-canvas (getContext "2d"))
+        grid-canvas (get-in @app/app-state [:grid :canvas])
+        grid-ctx (. grid-canvas (getContext "2d"))]
+    (swap! app/app-state assoc :context draw-ctx)
+    (swap! app/app-state assoc-in [:grid :ctx] grid-ctx)
+    (dom/appendChild (. js/document -body) draw-canvas)
+    (dom/appendChild (. js/document -body) grid-canvas)
+    (canvas-adjust draw-ctx)
+    (canvas-adjust grid-ctx)
+    (bind-drawing-events draw-canvas draw-ctx)
+    (bind-tooling-events draw-canvas draw-ctx)))
 
 (setup)
 
