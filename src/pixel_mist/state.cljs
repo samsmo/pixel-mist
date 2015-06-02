@@ -11,5 +11,8 @@
                           :history []
                           :canvas (dom/createDom "canvas")
                           :context nil
-                          :grid nil
+                          :grid {
+                                 :canvas (dom/createDom "canvas")
+                                 :coords {:x 0 :y 0}
+                                 }
                           }))

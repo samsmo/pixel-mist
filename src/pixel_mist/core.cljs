@@ -25,7 +25,7 @@
     (go (while true
           (let [key-event (<! kp)
                 char-code (.-charCode key-event)]
-            (kboard/press char-code)
+            (kboard/press char-code app/app-state)
             )))))
 
 (defn bind-drawing-events [el out]
@@ -55,7 +55,11 @@
                (let [tool (:tool @app/app-state)
                      newHist (get-in new [:history])]
                  (tool (last newHist) app/app-state)
-                 ))))
+                 ))
+             (when (not= (get-in old [:grid])
+                         (get-in new [:grid]))
+               (let [coords (get-in new [:grid :coords])]
+                 (println coords)))))
 
 (defn setup []
   (swap! app/app-state assoc :context (. (:canvas @app/app-state) (getContext "2d")))

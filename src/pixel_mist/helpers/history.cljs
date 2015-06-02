@@ -1,4 +1,5 @@
-(ns pixel-mist.helpers.history)
+(ns pixel-mist.helpers.history
+  (:require [pixel-mist.state :as app]))
 
 (defn push-stroke [path app]
     (let [new-history (conj (:history @app) path)]
@@ -16,5 +17,5 @@
       (burn-books app))
 
 ;; intermediary func
-(defn push-grid [app]
-  )
+(defn push-grid [grid]
+  (swap! app/app-state assoc-in [:grid :coords] grid))
