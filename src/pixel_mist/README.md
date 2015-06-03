@@ -14,10 +14,16 @@ Then type in your terminal:
 lein figwheel
 ```
 
+## TOOLZ (key shortcut)
+
+1. Pencil 
+2. Grid (G)
+
 
 ## TODO:
 | Name | desc | status |
 | ---- | ---- | ------ |
+| Toolbar | Toolbar a user can click to get a list of commands | nil |
 | Mister | a feature that will randomly add different colors to your pencil tool so that you can get neat effects~ | nil |
 | eraser | removal of pixel datas | nil |
 | fill tool | Fill in blank space | nil |
