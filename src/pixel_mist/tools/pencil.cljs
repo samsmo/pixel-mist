@@ -10,4 +10,6 @@
 
 (defn render[opts app]
   (doseq [k opts]
-    (draw-pixel k app)))
+    (if (not (nil? (:x k)))
+      (draw-pixel k app)
+     nil)))
