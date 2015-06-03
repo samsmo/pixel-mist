@@ -2,7 +2,7 @@
 
 html,
 body {
-    cursor: url(../img/cursor.png), auto;
+    cursor: url(../img/cursor.png) 8 22, auto;
     height: 100%;
     margin: 0;
     overflow: hidden;

@@ -40,7 +40,7 @@
 (defn calc-path [x y]
   (let [{:keys [scale context history]} @app/app-state
         prev (last history)
-        x (* (. js/Math (ceil (/ x scale))) scale)
-        y (* (. js/Math (ceil (/ y scale))) scale)
+        x (* (. js/Math (floor (/ x scale))) scale)
+        y (* (. js/Math (floor (/ y scale))) scale)
         path (missing-pieces? (last prev) x y [{:x x :y y}])]
     path))

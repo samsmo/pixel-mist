@@ -5,9 +5,9 @@
 (defn draw-line [grid ctx]
   (let [maxX (.-innerWidth js/window)
         maxY (.-innerHeight js/window)
-        {:keys [x y]} grid
-        lineX (if (> x 0) x maxX)
-        lineY (if (> y 0) y maxY)]
+        {:keys [x y type]} grid
+        lineX (if (or (> x 0) (identical? type "horizontal")) x maxX)
+        lineY (if (or (> y 0) (identical? type "vertical")) y maxY)]
     (. ctx (moveTo x y))
     (. ctx (lineTo lineX lineY))))
 
@@ -28,7 +28,7 @@
         maxY (.-innerHeight js/window)
         lazyX (range 0 maxX scale)
         lazyY (range 0 maxY scale)
-        x (map #(hash-map :x % :y 0) lazyX)
-        y (map #(hash-map :x 0 :y %) lazyY)
+        x (map #(hash-map :x % :y 0 :type "horizontal") lazyX)
+        y (map #(hash-map :x 0 :y % :type "vertical") lazyY)
         path (concat y x)]
     path))
