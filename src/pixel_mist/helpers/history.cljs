@@ -18,4 +18,11 @@
 
 ;; intermediary func
 (defn push-grid [grid]
-  (swap! app/app-state assoc-in [:grid :coords] grid))
+  (let [active (not (get-in @app/app-state [:grid :active]))
+        grid (if (true? active) grid [{:x 0 :y 0 :type "horizontal"}])
+        new-grid (update-in @app/app-state [:grid] assoc :active active :coords grid)]
+    (swap! app/app-state assoc :grid (:grid new-grid))))
+
+(defn push-scale [scale]
+  (let [scale (if (> scale 0) scale 5)]
+    (swap! app/app-state assoc :scale scale)))

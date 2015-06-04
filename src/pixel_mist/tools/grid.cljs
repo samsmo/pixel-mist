@@ -11,11 +11,24 @@
     (. ctx (moveTo x y))
     (. ctx (lineTo lineX lineY))))
 
-(defn render [grid ctx]
-    (doseq [k grid] (draw-line k ctx))
-    (set! (.-strokeStyle ctx) "#CCC")
-    (set! (.-lineWidth ctx) 1)
-    (. ctx (stroke)))
+(defn clear-canvas [ctx width height]
+  (.save ctx)
+  (.setTransform ctx 1 0 0 1 0 0)
+  (.clearRect ctx 0 0 width height)
+  (.restore ctx))
+
+(defn grid-starter [coords ctx]
+  (. ctx (beginPath))
+  (doseq [k coords] (draw-line k ctx))
+  (set! (.-strokeStyle ctx) "#CCC")
+  (set! (.-lineWidth ctx) 1)
+  (. ctx (stroke))
+  (. ctx (closePath)))
+
+(defn render [grid]
+  (let [{:keys [coords canvas ctx active]} grid]
+    (clear-canvas ctx (.-width canvas) (.-height canvas))
+    (if (true? active) (grid-starter coords ctx) nil)))
 
 ;; calculation method
 ;; possible not the place for it

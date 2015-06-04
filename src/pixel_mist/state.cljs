@@ -12,6 +12,7 @@
                           :canvas (dom/createDom "canvas")
                           :context nil
                           :grid {
+                                 :active false
                                  :canvas (dom/createDom "canvas" (clj->js {:id "grid"}))
                                  :ctx nil
                                  :coords {:x 0 :y 0}

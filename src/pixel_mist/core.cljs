@@ -22,10 +22,10 @@
     c))
 
 (defn bind-tooling-events [el out]
-  (let [kp (listen (. js/document -body) "keypress")]
+  (let [kp (listen (. js/document -body) "keydown")]
     (go (while true
           (let [key-event (<! kp)
-                char-code (.-charCode key-event)]
+                char-code (.-keyCode key-event)]
             (kboard/press char-code app/app-state))))))
 
 (defn bind-drawing-events [el out]
@@ -56,9 +56,8 @@
                  (tool (last newHist) app/app-state)))
              (when (not= (get-in old [:grid])
                          (get-in new [:grid]))
-               (let [coords (get-in new [:grid :coords])
-                     grid-ctx (get-in new [:grid :ctx])]
-                 (grid/render coords grid-ctx)))))
+               (let [grid (get-in new [:grid])]
+                 (grid/render grid)))))
 
 (defn setup []
   (let [draw-canvas (:canvas @app/app-state)
