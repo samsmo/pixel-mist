@@ -1,12 +1,13 @@
 (ns ^:figwheel-always pixel-mist.core
   (:require [cljs.core.async :as async
              :refer [<! >! chan put! timeout]]
-            [goog.events :as events]
+            [goog.events :as g-events]
             [goog.dom :as dom]
             [pixel-mist.state :as app]
             [pixel-mist.helpers.history :as hist]
             [pixel-mist.helpers.brush :as brush]
             [pixel-mist.helpers.kboard :as kboard]
+            [pixel-mist.helpers.overlay :as overlay]
             [pixel-mist.tools.grid :as grid])
   (:require-macros [cljs.core.async.macros :refer [go]]))
 
@@ -18,7 +19,7 @@
 
 (defn listen [el type]
   (let [c (chan)]
-    (events/listen el type #(put! c %))
+    (g-events/listen el type #(put! c %))
     c))
 
 (defn bind-tooling-events [el out]
@@ -57,7 +58,11 @@
              (when (not= (get-in old [:grid])
                          (get-in new [:grid]))
                (let [grid (get-in new [:grid])]
-                 (grid/render grid)))))
+                 (grid/render grid)))
+             (when (not= (get-in old [:overlay])
+                         (get-in new [:overlay]))
+               (let [overlay-content (get-in new [:overlay])]
+                 (overlay/render overlay-content)))))
 
 (defn setup []
   (let [draw-canvas (:canvas @app/app-state)

@@ -15,3 +15,21 @@ body {
     position: fixed;
     pointer-events: none;
 }
+
+#overlay {
+    background: red;
+    cursor: default;
+    height: 100%;
+    position: fixed;
+    text-align: center;
+    top: 0;
+    left: 0;
+    width: 100%;
+}
+
+#overlay input {
+    left: 50%;
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%);
+}

@@ -26,3 +26,13 @@
 (defn push-scale [scale]
   (let [scale (if (> scale 0) scale 5)]
     (swap! app/app-state assoc :scale scale)))
+
+(defn push-color [color]
+  (swap! app/app-state assoc :color color))
+
+(defn push-overlay [el]
+  (let [active (not (get-in @app/app-state [:overlay :active]))
+        child (if (true? active) el nil)
+        new-overlay (update-in @app/app-state [:overlay] assoc :active active :child child)]
+    (println (:overlay @app/app-state))
+    (swap! app/app-state assoc :overlay (:overlay new-overlay))))

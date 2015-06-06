@@ -11,6 +11,14 @@
                           :history []
                           :canvas (dom/createDom "canvas")
                           :context nil
+                          :overlay {
+                                  :active false
+                                  :container (dom/createDom "section" (clj->js {:id "overlay"}))
+                                  :child {
+                                          :el nil
+                                          :cb nil
+                                          }
+                                  }
                           :grid {
                                  :active false
                                  :canvas (dom/createDom "canvas" (clj->js {:id "grid"}))

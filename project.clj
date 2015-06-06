@@ -14,7 +14,7 @@
   :source-paths ["src"]
 
   :clean-targets ^{:protect false} ["resources/public/js/compiled" "target"]
-  
+
   :cljsbuild {
     :builds [{:id "dev"
               :source-paths ["src"]
@@ -29,12 +29,12 @@
              {:id "min"
               :source-paths ["src"]
               :compiler {:output-to "resources/public/js/compiled/pixel_mist.js"
-                         :main pixel-mist.core                         
+                         :main pixel-mist.core
                          :optimizations :advanced
                          :pretty-print false}}]}
 
   :figwheel {
-             ;; :http-server-root "public" ;; default and assumes "resources" 
+             ;; :http-server-root "public" ;; default and assumes "resources"
              ;; :server-port 3449 ;; default
              :css-dirs ["resources/public/css"] ;; watch and update CSS
 
@@ -60,5 +60,5 @@
              ;; :repl false
 
              ;; to configure a different figwheel logfile path
-             ;; :server-logfile "tmp/logs/figwheel-logfile.log" 
+             ;; :server-logfile "tmp/logs/figwheel-logfile.log"
              })
