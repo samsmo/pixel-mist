@@ -16,13 +16,15 @@ lein figwheel
 
 ## TOOLZ (key shortcut)
 
-1. Pencil 
-2. Grid (G)
+1. Pencil
+2. Grid (g)
+3. Color Input (c)
 
 
 ## TODO:
 | Name | desc | status |
 | ---- | ---- | ------ |
+| Color Picker | make it so when the user hits enter it closes out the overlay / add some info text | middle middle |
 | Toolbar | Toolbar a user can click to get a list of commands | nil |
 | Mister | a feature that will randomly add different colors to your pencil tool so that you can get neat effects~ | nil |
 | eraser | removal of pixel datas | nil |
