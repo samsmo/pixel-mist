@@ -34,5 +34,4 @@
   (let [active (not (get-in @app/app-state [:overlay :active]))
         child (if (true? active) el nil)
         new-overlay (update-in @app/app-state [:overlay] assoc :active active :child child)]
-    (println (:overlay @app/app-state))
     (swap! app/app-state assoc :overlay (:overlay new-overlay))))
